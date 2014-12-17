@@ -33,9 +33,9 @@ class ProtocolTreeNode(object):
 
         if self.data is not None:
             if type(self.data) is bytearray:
-                out += self.data.decode()
+                out += "%s" % self.data.decode()
             else:
-                out += self.data;
+                out += "%s" % self.data;
         
         for c in self.children:
            out += c.toString()
@@ -71,6 +71,10 @@ class ProtocolTreeNode(object):
     def __setitem__(self, key, val):
         self.setAttribute(key, val)
 
+    def __delitem__(self, key):
+        self.removeAttribute(key)
+
+
     def getChild(self,identifier):
 
         if type(identifier) == int:
@@ -100,6 +104,10 @@ class ProtocolTreeNode(object):
             return self.attributes[string]
         except KeyError:
             return None
+
+    def removeAttribute(self, key):
+        if key in self.attributes:
+            del self.attributes[key]
 
     def setAttribute(self, key, value):
         self.attributes[key] = value
